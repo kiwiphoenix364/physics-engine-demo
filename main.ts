@@ -195,15 +195,16 @@ game.onUpdate(function () {
             }
         }
         for (let index43 = 0; index43 <= TileCollisionArrayX.length; index43++) {
-            if (mySprite.x == TileCollisionArrayX[index43]) {
+            if (mySprite.left + 8 <= TileCollisionArrayX[index43] && mySprite.right - 8 >= TileCollisionArrayX[index43]) {
                 if (mySprite.vy >= 0 && mySprite.bottom - 3 <= TileCollisionArrayY[index43]) {
                     if (mySprite.bottom + 3 >= TileCollisionArrayY[index43]) {
-                        mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
-                        hittingwall = true
-                        canJump = true
-                        mySprite.bottom = TileCollisionArrayY[index43] - 1
-                        break;
-                    } else if (mySprite.bottom + 4 >= TileCollisionArrayY[index43]) {
+                        if (mySprite.x - 1 <= TileCollisionArrayX[index43] && mySprite.x + 1 >= TileCollisionArrayX[index43]) {
+                            mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
+                            hittingwall = true
+                            canJump = true
+                            mySprite.bottom = TileCollisionArrayY[index43] - 1
+                        }
+                    } else if (mySprite.bottom + 6 >= TileCollisionArrayY[index43]) {
                         mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
                         canJump = true
                     }
