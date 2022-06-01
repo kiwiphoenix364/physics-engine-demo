@@ -69,6 +69,8 @@ function GenerateCollision () {
             	
             }
             for (let value2 of item) {
+                TileCollisionArrayX.push(value2.column * 16 - 1)
+                TileCollisionArrayY.push(value2.row * 16 + collisionImages.height + 1)
                 for (let index32 = 0; index32 <= collisionImages.width; index32++) {
                     for (let index222 = 0; index222 <= collisionImages.height; index222++) {
                         if (0 != collisionImages.getPixel(index32, index222)) {
@@ -77,6 +79,8 @@ function GenerateCollision () {
                         }
                     }
                 }
+                TileCollisionArrayX.push(value2.column * 16 + 1 + collisionImages.width)
+                TileCollisionArrayY.push(value2.row * 16 + collisionImages.height + 1)
             }
         }
     })
@@ -195,25 +199,20 @@ game.onUpdate(function () {
             }
         }
         for (let index43 = 0; index43 <= TileCollisionArrayX.length; index43++) {
-            if (mySprite.left + 8 <= TileCollisionArrayX[index43] && mySprite.right - 8 >= TileCollisionArrayX[index43]) {
-                if (mySprite.vy >= 0 && mySprite.bottom - 3 <= TileCollisionArrayY[index43]) {
-                    if (mySprite.bottom + 3 >= TileCollisionArrayY[index43]) {
-                        if (mySprite.x - 1 <= TileCollisionArrayX[index43] && mySprite.x + 1 >= TileCollisionArrayX[index43]) {
-                            mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
-                            hittingwall = true
-                            canJump = true
-                            mySprite.bottom = TileCollisionArrayY[index43] - 1
-                        }
-                    } else if (mySprite.bottom + 6 >= TileCollisionArrayY[index43]) {
+            if (mySprite.vy >= 0 && mySprite.bottom - 3 <= TileCollisionArrayY[index43]) {
+                if (mySprite.bottom + 3 >= TileCollisionArrayY[index43]) {
+                    if (mySprite.x - 1 <= TileCollisionArrayX[index43] && mySprite.x + 1 >= TileCollisionArrayX[index43]) {
                         mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
+                        hittingwall = true
                         canJump = true
+                        mySprite.bottom = TileCollisionArrayY[index43] - 1
                     }
                 }
-                if (mySprite.vy <= 0 && (mySprite.top <= TileCollisionArrayY[index43] && mySprite.top + 4 >= TileCollisionArrayY[index43])) {
-                    let index52 = 0
-                    mySprite.vy = 0
-                    mySprite.top = TileCollisionArrayY[index52]
-                }
+            }
+            if (mySprite.vy <= 0 && (mySprite.top <= TileCollisionArrayY[index43] && mySprite.top + 4 >= TileCollisionArrayY[index43])) {
+                let index52 = 0
+                mySprite.vy = 0
+                mySprite.top = TileCollisionArrayY[index52] - 1
             }
         }
         if (hittingwall) {

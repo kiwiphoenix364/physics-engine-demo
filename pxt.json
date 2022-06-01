@@ -1,5 +1,5 @@
 {
-    "name": "Physics Engine Demo!",
+    "name": "Physics Engine Demo! (INDEV)",
     "description": "",
     "dependencies": {
         "device": "*",
