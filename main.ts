@@ -199,20 +199,29 @@ game.onUpdate(function () {
             }
         }
         for (let index43 = 0; index43 <= TileCollisionArrayX.length; index43++) {
-            if (mySprite.vy >= 0 && mySprite.bottom - 3 <= TileCollisionArrayY[index43]) {
-                if (mySprite.bottom + 3 >= TileCollisionArrayY[index43]) {
-                    if (mySprite.x - 1 <= TileCollisionArrayX[index43] && mySprite.x + 1 >= TileCollisionArrayX[index43]) {
+            if (mySprite.left <= TileCollisionArrayX[index43] && mySprite.right >= TileCollisionArrayX[index43]) {
+                if (mySprite.vy >= 0 && mySprite.bottom - 1 < TileCollisionArrayY[index43]) {
+                    if (mySprite.bottom + 0 >= TileCollisionArrayY[index43]) {
                         mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
                         hittingwall = true
                         canJump = true
                         mySprite.bottom = TileCollisionArrayY[index43] - 1
+                        break;
+                    } else if (mySprite.bottom + 1 >= TileCollisionArrayY[index43]) {
+                        canJump = true
                     }
                 }
-            }
-            if (mySprite.vy <= 0 && (mySprite.top <= TileCollisionArrayY[index43] && mySprite.top + 4 >= TileCollisionArrayY[index43])) {
-                let index52 = 0
-                mySprite.vy = 0
-                mySprite.top = TileCollisionArrayY[index52] - 1
+                if (mySprite.vy <= 0 && mySprite.top + 1 < TileCollisionArrayY[index43]) {
+                    if (mySprite.top + 0 >= TileCollisionArrayY[index43]) {
+                        mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
+                        hittingwall = true
+                        canJump = true
+                        mySprite.top = TileCollisionArrayY[index43] + 1
+                        break;
+                    } else if (mySprite.top + 1 >= TileCollisionArrayY[index43]) {
+                        canJump = true
+                    }
+                }
             }
         }
         if (hittingwall) {
