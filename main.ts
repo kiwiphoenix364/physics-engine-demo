@@ -139,47 +139,17 @@ mySprite = sprites.create(img`
     `, SpriteKind.Player)
 mySprite.vy = 100
 scene.cameraFollowSprite(mySprite)
-let mySprite3 = sprites.create(img`
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    c 
-    `, SpriteKind.Player)
-mySprite3.setFlag(SpriteFlag.Invisible, true)
 GenerateCollision()
 game.onUpdate(function () {
     curx = mySprite.x
     cury = mySprite.y
     repeat = Math.abs(curx - prevx) + Math.abs(cury - prevy) - Math.min(Math.abs(prevx - curx), Math.abs(prevy - cury))
-    hittingwall = mySprite.isHittingTile(CollisionDirection.Bottom)
     canJump = mySprite.isHittingTile(CollisionDirection.Bottom)
     for (let index = 0; index <= repeat; index++) {
         mySprite.setPosition(prevx + (curx - prevx) / repeat * index, prevy + (cury - prevy) / repeat * index)
         controller.moveSprite(mySprite, 100, 0)
         mySprite.setFlag(SpriteFlag.GhostThroughWalls, false)
         hittingwall = false
-        mySprite3.x = mySprite.x
-        mySprite3.top = mySprite.bottom
         for (let index4 = 0; index4 <= TileCollisionArrayX.length; index4++) {
             if (mySprite.top + 2 <= TileCollisionArrayY[index4] && mySprite.y - 3 >= TileCollisionArrayY[index4]) {
                 if (mySprite.right - 6 <= TileCollisionArrayX[index4] && mySprite.right >= TileCollisionArrayX[index4]) {
@@ -202,24 +172,23 @@ game.onUpdate(function () {
             if (mySprite.left <= TileCollisionArrayX[index43] && mySprite.right >= TileCollisionArrayX[index43]) {
                 if (mySprite.vy >= 0 && mySprite.bottom - 1 < TileCollisionArrayY[index43]) {
                     if (mySprite.bottom + 0 >= TileCollisionArrayY[index43]) {
-                        mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
                         hittingwall = true
                         canJump = true
                         mySprite.bottom = TileCollisionArrayY[index43] - 1
-                        break;
                     } else if (mySprite.bottom + 1 >= TileCollisionArrayY[index43]) {
                         canJump = true
+                    } else {
+                    	
                     }
                 }
                 if (mySprite.vy <= 0 && mySprite.top + 1 < TileCollisionArrayY[index43]) {
                     if (mySprite.top + 0 >= TileCollisionArrayY[index43]) {
-                        mySprite.setFlag(SpriteFlag.GhostThroughWalls, true)
                         hittingwall = true
-                        canJump = true
                         mySprite.top = TileCollisionArrayY[index43] + 1
-                        break;
                     } else if (mySprite.top + 1 >= TileCollisionArrayY[index43]) {
-                        canJump = true
+                    	
+                    } else {
+                    	
                     }
                 }
             }
